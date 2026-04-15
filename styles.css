@@ -1,0 +1,334 @@
+/* =========================================
+   1. Variables & Branding (FNC Palette)
+   ========================================= */
+:root {
+  /* FNC Brand Colors extracted from Logo */
+  --brand-green: #2e7d32; /* Deep Leaf Green */
+  --brand-gold: #f9a825; /* Harvest Gold */
+  --brand-brown: #5d4037; /* Earthy Soil Brown */
+
+  /* UI Colors */
+  --bg-overlay: rgba(
+    255,
+    255,
+    255,
+    0.92
+  ); /* Stronger overlay for readability */
+  --card-bg: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+
+  /* Sizing */
+  --header-height: 80px;
+  --max-card-width: 1200px;
+  --radius-card: 16px;
+  --radius-pill: 50px;
+}
+
+/* =========================================
+   2. Global Reset & Viewport Lockdown
+   ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: url("images/food.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text-main);
+
+  /* THE 100VH RULE: Locks screen height on desktop */
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================
+   3. Header
+   ========================================= */
+.site-header {
+  height: var(--header-height);
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 4px solid var(--brand-gold); /* Snazzy accent */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+  flex-shrink: 0; /* Prevents squishing */
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: var(--max-card-width);
+  padding: 0 20px;
+}
+
+.site-logo {
+  height: 55px; /* Larger, visible logo */
+  width: auto;
+  margin-right: 20px;
+}
+
+.site-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--brand-green);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+/* =========================================
+   4. Main Layout & Card
+   ========================================= */
+main {
+  flex: 1; /* Takes remaining height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--bg-overlay);
+  overflow: hidden; /* Prevents double scrollbars */
+}
+
+.card {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: var(--max-card-width);
+  height: 100%;
+  max-height: 95%; /* Leaves a little breathing room */
+  border-radius: var(--radius-card);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Internal Scroll Area: Only this scrolls if content is long */
+.card-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Headings */
+h1 {
+  font-size: 2rem;
+  color: var(--brand-green);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* =========================================
+   5. The "Peer-to-Peer" Pill Slider
+   ========================================= */
+.pill-control-wrapper {
+  position: relative;
+  display: flex;
+  background: #f3f4f6;
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  width: 300px;
+  height: 50px;
+  margin-bottom: 30px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+}
+
+/* Hide the actual radio circles */
+.pill-control-wrapper input[type="radio"] {
+  display: none;
+}
+
+/* The Clickable Labels */
+.pill-control-wrapper label {
+  flex: 1;
+  z-index: 2;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+  border-radius: var(--radius-pill);
+}
+
+/* The Green Sliding Pill Background */
+.pill-slider-bg {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  background: var(--brand-green);
+  border-radius: var(--radius-pill);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Slider Logic */
+#year-2024:checked ~ .pill-slider-bg {
+  transform: translateX(0%);
+}
+#year-2025:checked ~ .pill-slider-bg {
+  transform: translateX(100%);
+}
+
+#year-2024:checked + label {
+  color: white;
+}
+#year-2025:checked + label {
+  color: white;
+}
+
+/* =========================================
+   6. Document Grid (Cards)
+   ========================================= */
+.document-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.doc-card {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-left: 5px solid var(--brand-gold); /* Gold accent */
+  border-radius: 8px;
+  padding: 20px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.doc-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-left-color: var(--brand-green); /* Switch to green on hover */
+}
+
+.doc-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.doc-title {
+  font-weight: 700;
+  color: var(--text-main);
+  font-size: 1rem;
+}
+
+.doc-arrow {
+  color: var(--brand-green);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* =========================================
+   7. Map Styles (Responsive SVG)
+   ========================================= */
+.map-wrapper {
+  flex: 1; /* Grow to fill available space */
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0; /* Critical for flexbox containment */
+}
+
+svg {
+  max-height: 100%;
+  width: 100%;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+}
+
+svg path {
+  fill: #a5d6a7; /* Light green base */
+  stroke: #ffffff;
+  stroke-width: 1.5px;
+  transition: fill 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+svg path:hover {
+  fill: var(--brand-green);
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   8. Buttons
+   ========================================= */
+.btn-back {
+  margin-top: 20px;
+  padding: 12px 30px;
+  border-radius: 30px;
+  background-color: var(--brand-brown);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(93, 64, 55, 0.3);
+  transition: background 0.3s;
+}
+
+.btn-back:hover {
+  background-color: var(--brand-green);
+}
+
+/* =========================================
+   9. Mobile Responsiveness
+   ========================================= */
+@media (max-width: 768px) {
+  body {
+    height: auto; /* Unlock height */
+    overflow-y: auto;
+  }
+  main {
+    padding: 10px;
+  }
+  .card {
+    max-height: none; /* Unlock card height */
+    height: auto;
+  }
+  .site-title {
+    font-size: 0.9rem;
+  }
+  .map-wrapper {
+    height: 300px; /* Fixed height for map on mobile */
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .pill-control-wrapper {
+    width: 100%; /* Full width slider */
+  }
+}

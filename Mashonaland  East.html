@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mashonaland East - FNSC Documents</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-content">
+        <img src="images/logo.png" alt="FNC Logo" class="site-logo" />
+        <div class="site-title">
+          Food and Nutrition Security <br />Committees Repository
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="card">
+        <div class="card-content-scroll">
+          <h1 id="province-title">Mashonaland East</h1>
+          <p class="subtitle">
+            Select a financial year to view the relevant Workplans and
+            Databases.
+          </p>
+
+          <div class="pill-control-wrapper">
+            <input
+              type="radio"
+              name="year-toggle"
+              id="year-2024"
+              value="2024"
+              checked
+            />
+            <label for="year-2024">2024</label>
+            <input
+              type="radio"
+              name="year-toggle"
+              id="year-2025"
+              value="2025"
+            />
+            <label for="year-2025">2025</label>
+            <div class="pill-slider-bg"></div>
+          </div>
+
+          <div id="document-container" class="document-grid"></div>
+
+          <a href="index.html" class="btn-back">← Back to Map</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const contentData = {
+          2024: [
+            {
+              title: "2024 FNSC Membership Database",
+              link: "Docs/2024/Mashonaland East Database.pdf",
+            },
+            {
+              title: "2024 Provincial (PFNSC) Work Plan",
+              link: "Docs/2024/PFNSC_Consolidated_Work_Plan Final.pdf#page=13",
+            },
+            {
+              title: "2024 District (DFNSC) Work Plan",
+              link: "Docs/2024/DFNSC 2024 Work Plans Consolidated.pdf#page=33",
+            },
+          ],
+          2025: [
+            {
+              title: "2025 FNSC Membership Database",
+              link: "Docs/2025/Mashonaland East Database.pptx",
+            },
+            {
+              title: "2025 Provincial (PFNSC) Work Plan",
+              link: "Docs/2025/MASH EAST_ 2025 PFNSC Work Plan - Consolidated.pptx",
+            },
+          ],
+        };
+
+        const container = document.getElementById("document-container");
+        const radios = document.querySelectorAll('input[name="year-toggle"]');
+
+        function renderContent(year) {
+          const items = contentData[year] || [];
+          container.innerHTML = "";
+          if (items.length === 0) {
+            container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777;">No documents available for ${year} yet.</p>`;
+            return;
+          }
+          items.forEach((item) => {
+            const card = document.createElement("a");
+            card.className = "doc-card";
+            card.href = item.link;
+            card.target = "_blank";
+            card.innerHTML = `<div class="doc-info"><span class="doc-title">${item.title}</span></div><span class="doc-arrow">➜</span>`;
+            container.appendChild(card);
+          });
+        }
+
+        radios.forEach((radio) =>
+          radio.addEventListener("change", (e) => renderContent(e.target.value))
+        );
+        renderContent("2024");
+      });
+    </script>
+  </body>
+</html>
